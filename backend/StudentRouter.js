@@ -58,5 +58,20 @@ router.get('/studentList/:student_id', async(req, res) => {
     }
 });
 
-router.put('/update/:student_id', async())
+router.put('/update/:student_id', async(req, res) => {
+    const { student_id } = req.params;
+    const { student_name, student_gender, student_age } = req.body;
+
+       if (!student_age || !student_gender || !student_name) {
+         res.status(403).json({ message: 'Some fields are missing' });
+       }
+
+     await connection.query(
+        '',
+        [student_name, student_gender, student_age]
+       );
+
+        return res.status(200).json({ message: 'User inserted successfully'})
+      
+})
 export default router
