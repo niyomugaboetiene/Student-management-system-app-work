@@ -40,5 +40,21 @@ router.get('/studentList', async(req, res) => {
 });
 
 // ? retrieve single user
-router.get('/')
+router.get('/studentList/:student_id', async(req, res) => {
+    const { student_id } = req.params;
+
+    try {
+       const [result] =  await connection.query(
+            'SELECT * FROM student WHERE student_id = ?', [student_id]
+     );
+
+     if (result.length === 0) {
+        res.status(404).json({ message: 'No student in system' });
+     }
+
+     return res.status(200).json({ user: result });
+    } catch (err) {
+           return res.status(201).json({ error: err.message });   
+    }
+})
 export default router
