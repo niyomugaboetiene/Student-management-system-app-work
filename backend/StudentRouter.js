@@ -16,7 +16,7 @@ router.post('/addStudent', async(req, res) => {
         [student_name, student_gender, student_age]
        );
 
-        return res.status(200).json({ message: 'User inserted successfully'})
+        return res.status(201).json({ message: 'User inserted successfully'})
       
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -86,5 +86,32 @@ router.put('/update/:student_id', async(req, res) => {
         return res.status(500).json({error: err.message})
     }
 
+})
+
+router.delete('/delete/:student_id', async (req, res) => {
+    try {
+          const { student_id } = req.params;
+          if (!student_id) {
+              res.status(403).json({ message: 'Student id is requred' });
+              return;
+          }
+    
+          //  * check student existance
+        const [result] =  await connection.query(
+            'SELECT * FROM student WHERE student_id = ?', [student_id]
+         );
+
+         if (result.length === 0) {
+            res.status(404).json({ message: 'No student in system' });
+         }
+
+         await connection.query(
+            'DELETE FROM student WHERE student_id = ?', [student_id]
+         );
+
+         return res.status(200).json({ message: 'User deleted successfully' });
+    }  catch (err) {
+        return res.status(500).json({error: err.message})
+    }
 })
 export default router
