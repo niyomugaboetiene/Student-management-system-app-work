@@ -19,7 +19,7 @@ router.post('/addStudent', async(req, res) => {
         return res.status(200).json({ message: 'User inserted successfully'})
       
     } catch (err) {
-        return res.status(201).json({ error: err.message });
+        return res.status(500).json({ error: err.message });
     }
 })
 
@@ -35,7 +35,7 @@ router.get('/studentList', async(req, res) => {
 
      return res.status(200).json({ user: result });
     } catch (err) {
-           return res.status(201).json({ error: err.message });   
+           return res.status(500).json({ error: err.message });   
     }
 });
 
@@ -54,24 +54,37 @@ router.get('/studentList/:student_id', async(req, res) => {
 
      return res.status(200).json({ user: result });
     } catch (err) {
-           return res.status(201).json({ error: err.message });   
+           return res.status(500).json({ error: err.message });   
     }
 });
 
 router.put('/update/:student_id', async(req, res) => {
-    const { student_id } = req.params;
-    const { student_name, student_gender, student_age } = req.body;
+    try {
+       const { student_id } = req.params;
+       const { student_name, student_gender, student_age } = req.body;
 
-       if (!student_age || !student_gender || !student_name) {
-         res.status(403).json({ message: 'Some fields are missing' });
-       }
+         if (!student_age || !student_gender || !student_name || !student_id) {
+           res.status(403).json({ message: 'Some fields are missing' });
+         }
 
-     await connection.query(
-        '',
-        [student_name, student_gender, student_age]
-       );
+        //  * check student existance
+        const [result] =  await connection.query(
+            'SELECT * FROM student WHERE student_id = ?', [student_id]
+         );
 
-        return res.status(200).json({ message: 'User inserted successfully'})
-      
+         if (result.length === 0) {
+            res.status(404).json({ message: 'No student in system' });
+         }
+
+         await connection.query(
+            'UPDATE student SET student_name = ?, student_gender = ?, student_age = ? WHERE student_id = ?',
+             [student_name, student_gender, student_age, student_id]
+         );
+
+         return res.status(200).json({ message: 'User updated successfully'})
+    } catch (err) {
+        return res.status(500).json({error: err.message})
+    }
+
 })
 export default router
