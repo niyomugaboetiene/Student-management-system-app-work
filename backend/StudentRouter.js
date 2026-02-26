@@ -23,4 +23,22 @@ router.post('/addStudent', async(req, res) => {
     }
 })
 
+router.get('/studentList', async(req, res) => {
+    try {
+       const [result] =  await connection.query(
+            'SELECT * FROM student'
+     );
+
+     if (result.length === 0) {
+        res.status(404).json({ message: 'No student in system' });
+     }
+
+     return res.status(200).json({ user: result });
+    } catch (err) {
+           return res.status(201).json({ error: err.message });   
+    }
+});
+
+// ? retrieve single user
+router.get('/')
 export default router
