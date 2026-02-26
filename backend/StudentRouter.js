@@ -56,5 +56,7 @@ router.get('/studentList/:student_id', async(req, res) => {
     } catch (err) {
            return res.status(201).json({ error: err.message });   
     }
-})
+});
+
+router.put('/update/:student_id', async())
 export default router
