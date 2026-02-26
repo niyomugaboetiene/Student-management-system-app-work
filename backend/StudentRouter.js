@@ -11,16 +11,13 @@ router.post('/addStudent', async(req, res) => {
          res.status(403).json({ message: 'Some fields are missing' });
        }
 
-      connection.beginTransaction()
-
-      const [result] =  await connection.query(
+     await connection.query(
         'INSERT INTO student(student_name, student_gender, student_age) VALUES(?, ?, ?)',
         [student_name, student_gender, student_age]
        );
 
-      if (result.ok) {
-        return res.status(200).json({ message: 'User inserted successfully', user: result.insertId})
-      }
+        return res.status(200).json({ message: 'User inserted successfully'})
+      
     } catch (err) {
         return res.status(201).json({ error: err.message });
     }

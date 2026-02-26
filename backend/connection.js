@@ -1,16 +1,26 @@
-import mysql from "mysql2"
+import mysql from "mysql2/promise"
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'student_management_system_app',
-    queueLimit: 10
+    connectionLimit: 10,
+    waitForConnections: true,
+    queueLimit: 0
 });
 
-connection.connect((err) => {
-    if (err) throw err
-    console.log('Database connected successfully')
-});
+
+async function TestConnection() {
+    try {
+        connection.getConnection()
+        console.log('Connected successfully');
+        connection.releaseConnection();
+    } catch (err) {
+        console.log('Error during connection', err);
+    }
+}
+
+TestConnection();
 
 export default connection

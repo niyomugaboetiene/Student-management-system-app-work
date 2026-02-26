@@ -12,5 +12,5 @@ app.use('/student', StudentRouter)
 const PORT = 5000
 
 app.listen(PORT, () => {
-    console.log('https://localhost:5000')
+    console.log('http://localhost:5000')
 });
