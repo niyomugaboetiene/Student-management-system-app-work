@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Router, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 const SelectComponent = () => {
     const [studentInfo, setStudentInfo] = useState([]);
@@ -12,7 +12,7 @@ const SelectComponent = () => {
 
       const fetchStudentInfo = async() => {
         try {
-            const res = await axios.get("http://localhost:5000/student/studentList", {withCredentials: true}); 
+            const res = await axios.get("http://localhost:5000/student/studentList", { withCredentials: true }); 
 
             if (res.data.user.length === 0) {
                 setMessage("No student in system");
