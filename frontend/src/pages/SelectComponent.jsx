@@ -34,21 +34,23 @@ const SelectComponent = () => {
                 <thead>
                 <tr>
                     <th>Student id</th>
+                    <th>Student name</th>
                     <th>Student gender</th>
                     <th>Student age</th>
                 </tr>
                 </thead>
 
               <tbody>
-             {studentInfo.map((user, id) => (
+              {studentInfo.map((user, id) => (
                <tr key={id}>
                   <td>{user.student_id}</td>
+                  <td>{user.student_name}</td>
                   <td>{user.student_gender}</td>
                  <td>{user.student_age}</td>
                  <td>
                     <Link to={`/update/${user.student_id}`}>Update</Link>
                     {" | "}
-                    <Link to={`/delete/${user.student_id}`}>Delete</Link>
+                    <Link to={`/delete/${user.studexnt_id}`}>Delete</Link>
                  </td>
                </tr>
              ))}
