@@ -45,8 +45,11 @@ const SelectComponent = () => {
                   <td>{user.student_id}</td>
                   <td>{user.student_gender}</td>
                  <td>{user.student_age}</td>
-                 <td><Link to={`/update/${user.student_id}`}>Update</Link></td>
-                 <td><Link to={`/delete/${user.student_id}`}>Delete</Link></td>
+                 <td>
+                    <Link to={`/update/${user.student_id}`}>Update</Link>
+                    {" | "}
+                    <Link to={`/delete/${user.student_id}`}>Delete</Link>
+                 </td>
                </tr>
              ))}
               </tbody>
