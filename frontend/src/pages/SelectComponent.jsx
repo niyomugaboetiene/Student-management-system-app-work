@@ -37,6 +37,7 @@ const SelectComponent = () => {
                     <th>Student name</th>
                     <th>Student gender</th>
                     <th>Student age</th>
+                    <th>Modification</th>
                 </tr>
                 </thead>
 
